@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Nunito:wght@600;700&amp;family=Lato:wght@400;600&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: var(--bg, #eff0f1); }
+    * { box-sizing: border-box; }
+    ::selection { background: var(--selection, #d9dce0); }
+    @keyframes wobble {
+      0% { transform: rotate(-3deg) translateY(0px); }
+      50% { transform: rotate(3deg) translateY(-2px); }
+      100% { transform: rotate(-2deg) translateY(1px); }
+    }
+    a { color: var(--accent, #4f6b8a); text-decoration: none; }
+    a:hover { color: var(--accent-hover, #35516b); text-decoration: underline; }
+    :root, [data-theme="light"] {
+      --bg:#eff0f1; --bg-elevated:rgba(239,240,241,0.92); --bg-grid:#EFF0F1E6;
+      --ink:#1f2023; --ink2:#2f3033; --muted:#6c6d72; --muted2:#86868d; --muted3:#9a9aa1;
+      --accent:#4f6b8a; --accent-hover:#35516b; --border:#dcdde1; --border2:#e4e4e8;
+      --selection:#d9dce0; --grid-line:rgba(79,107,138,0.05);
+    }
+    [data-theme="dark"] {
+      --bg:#15171b; --bg-elevated:rgba(21,23,27,0.85); --bg-grid:#15171bE6;
+      --ink:#e7e8ea; --ink2:#d7d8db; --muted:#9a9ba3; --muted2:#83848c; --muted3:#75767d;
+      --accent:#8fb3d6; --accent-hover:#b7d1ea; --border:#2a2d33; --border2:#24272c;
+      --selection:#3a4a5c; --grid-line:rgba(143,179,214,0.07);
+    }
+  </style>
+</helmet>
+<div data-theme="{{ themeName }}" style="min-height: 100vh; background: var(--bg, #eff0f1); color: var(--ink, #1f2023); font-family: 'IBM Plex Sans',sans-serif; display: flex; flex-direction: column; position:relative;">
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background-color: var(--bg-grid, #EFF0F1E6); background-image: linear-gradient(var(--grid-line, rgba(79,107,138,0.05)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line, rgba(79,107,138,0.05)) 1px, transparent 1px); background-size: 42px 42px;"></div>
+  <canvas ref="{{ canvasRef }}" style="position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;"></canvas>
+
+  
+
+  <header style="position:sticky; top:0; z-index:20; background:var(--bg-elevated, rgba(239,240,241,0.92)); backdrop-filter:blur(6px); border-bottom:1px solid var(--border, #dcdde1); display:flex; align-items:center; justify-content:space-between; padding:18px 40px;">
+    <img onClick="{{ goHome }}" ref="{{ logoRef }}" src="./slice1-mrphfmwh-og3m.png" alt="Okan Efe Öğretmen" style="cursor: pointer; height: 114px; width: 235px; display: block; object-fit: scale-down">
+    <nav style="display:flex; gap:32px; font-size:15px;">
+      <span onClick="{{ setPageHome }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ homeUnderline }};">Home</span>
+      <span onClick="{{ setPageExperience }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ experienceUnderline }};">Experience</span>
+      <span onClick="{{ setPageProjects }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ projectsUnderline }};">Projects</span>
+      <span onClick="{{ setPagePublications }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ publicationsUnderline }};">Publications</span>
+      <span onClick="{{ setPageContact }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ contactUnderline }};">Contact</span>
+      <span onClick="{{ toggleTheme }}" title="Toggle light/dark" style="cursor:pointer; border:1px solid var(--border, #dcdde1); border-radius:20px; padding:4px 12px; font-size:13px; color:var(--muted, #6c6d72);">{{ themeLabel }}</span>
+    </nav>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:64px 32px 100px;">
+      <p style="font-size: 35px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink, #1f2023); font-weight: 800; margin: 0 0 12px; font-family: Nunito; width: 816px; height: 43px">Okan Efe Öğretmen</p>
+      <h1 style="font-family: Lato; font-size: 20px; font-weight: 400; line-height: 1.15; margin: 0 0 10px; color: #9EA3AD">Soon-to-be Ph.D. (Aug 2026) &amp; XR Designer-Researcher</h1>
+      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 36px;">Koç University · KARMA Mixed Reality Lab · Sarıyer, İstanbul</p>
+
+      <p style="font-size: 18px; line-height: 1.7; margin: 0 0 20px; text-wrap: pretty; width: 817px; height: 202px">
+        I'm a multidisciplinary researcher, designer, and developer of consumer and enterprise XR experiences —
+        a fast learner, creative, and passionate about visual design, ambitious to predict and shape the future
+        by creating. My Ph.D. work explores XR-mediated communication in domestic spaces, spanning co-design
+        studies, participant observation, and Unity/C# prototyping, evaluated through thematic analysis and the
+        Continuous Fuzzy Kano Model.
+      </p>
+      <p style="font-size:18px; line-height:1.7; margin:0 0 48px; text-wrap:pretty;">
+        <strong>I'm graduating with my Ph.D. in August and actively looking for an assistant professor position.</strong>
+        I'm also up for jumping into projects as an XR &amp; full-stack developer, and I'd love to team up with a lab
+        as a visiting researcher — thinking about UX research through XR, weaving XR into product design, bringing
+        it into everyday spaces like the kitchen, or designing UI for XR.
+      </p>
+
+      <h2 style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent, #4f6b8a); margin:0 0 8px;">Skills</h2>
+      <p style="font-size:14px; color:var(--muted2, #86868d); margin:0 0 8px;">Move your mouse across the cloud — words wake up nearby.</p>
+      <div onMouseMove="{{ onCloudMove }}" onMouseLeave="{{ onCloudLeave }}" style="position:relative; display:flex; flex-wrap:wrap; gap:0px 2px; align-items:center; justify-content:center; padding:28px 20px; margin:0 0 56px; border-top:1px solid #dcdde1; border-bottom:1px solid var(--border, #dcdde1); user-select:none;">
+        <sc-for list="{{ skills }}" as="s" hint-placeholder-count="26">
+          <div ref="{{ s.wrapRef }}" style="{{ s.wobbleStyle }}" title="{{ s.category }}">
+            <span ref="{{ s.innerRef }}" style="display:inline-block; font-family:'IBM Plex Sans',sans-serif; font-size:{{ s.size }}px; font-weight:500; color:var(--ink2, #2f3033); white-space:nowrap; transition: transform 0.18s cubic-bezier(.22,1,.36,1), color 0.18s;">{{ s.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <h2 style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent, #4f6b8a); margin:0 0 20px;">Education</h2>
+      <sc-for list="{{ education }}" as="e" hint-placeholder-count="4">
+        <div style="display:flex; gap:24px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
+          <div style="width:110px; flex-shrink:0; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ e.years }}</div>
+          <div>
+            <div style="font-size:17px; font-weight:600;">{{ e.degree }}</div>
+            <div style="font-size:15px; color:var(--muted, #6c6d72); margin:2px 0 6px;">{{ e.place }}</div>
+            <div style="font-size:15px; line-height:1.6; color:var(--ink2, #2f3033);">{{ e.detail }}</div>
+          </div>
+        </div>
+      </sc-for>
+
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isExperience }}" hint-placeholder-val="{{ false }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:64px 32px 100px;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 40px;">Experience</h1>
+      <sc-for list="{{ experience }}" as="x" hint-placeholder-count="7">
+        <div style="display:flex; gap:24px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
+          <div style="width:110px; flex-shrink:0; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ x.years }}</div>
+          <div>
+            <div style="font-size:17px; font-weight:600;">{{ x.role }}</div>
+            <div style="font-size:15px; color:var(--muted, #6c6d72); margin:2px 0 6px;">{{ x.place }}</div>
+            <div style="font-size:15px; line-height:1.6; color:var(--ink2, #2f3033);">{{ x.detail }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:1000px; margin:0 auto; padding:64px 32px 100px; width:100%;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 12px;">Selected Projects</h1>
+      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 48px; max-width:640px;">XR, spatial design, and design-research work from 2011 to present. Drop a screenshot into any frame below.</p>
+      <div style="display:flex; flex-direction:column; gap:56px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="9">
+          <div style="display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start;">
+            <div style="width:340px; height:210px; border-radius:4px; overflow:hidden; border:1px solid var(--border, #dcdde1);">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ p.imgId }}" placeholder="{{ p.placeholder }}" shape="rect" hint-size="340px,210px" style="width:100%;height:100%;"></x-import>
+            </div>
+            <div>
+              <div style="font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; margin-bottom:4px;">{{ p.year }}</div>
+              <div style="font-family:'IBM Plex Sans',sans-serif; font-size:22px; font-weight:600; margin-bottom:8px;">{{ p.title }}</div>
+              <p style="font-size:15.5px; line-height:1.65; color:var(--ink2, #2f3033); margin:0 0 10px; text-wrap:pretty;">{{ p.blurb }}</p>
+              <div style="font-size:13px; color:var(--muted2, #86868d);">{{ p.tools }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isPublications }}" hint-placeholder-val="{{ false }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:800px; margin:0 auto; padding:64px 32px 100px;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 40px;">Publications</h1>
+      <sc-for list="{{ publications }}" as="pub" hint-placeholder-count="5">
+        <div style="padding:18px 0; border-bottom:1px solid var(--border2, #e4e4e8); font-size:15.5px; line-height:1.7;">
+          <sc-if value="{{ pub.link }}" hint-placeholder-val="{{ false }}">
+            <span>{{ pub.text }} <a href="{{ pub.link }}" target="_blank" rel="noopener">{{ pub.linkLabel }}</a></span>
+          </sc-if>
+          <sc-if value="{{ pub.noLink }}" hint-placeholder-val="{{ true }}">
+            <span>{{ pub.text }}</span>
+          </sc-if>
+        </div>
+      </sc-for>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:640px; margin:0 auto; padding:80px 32px 120px; text-align:center;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 12px;">Get in touch</h1>
+      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 48px;">Sarıyer · İstanbul · Türkiye</p>
+
+      <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
+        <a href="mailto:okanefeogretmen@gmail.com" style="font-size:19px; border-bottom:1px solid transparent;">okanefeogretmen@gmail.com</a>
+        <a href="https://www.linkedin.com/in/efeogr" target="_blank" rel="noopener" style="font-size:19px;">LinkedIn ↗</a>
+        <span onClick="{{ setPageProjects }}" style="font-size:19px; cursor:pointer;">Browse projects ↗</span>
+        <a href="./Okan-Efe-Ogretmen-CV.pdf" download="" style="font-size:19px;">Download CV (PDF) ↓</a>
+      </div>
+    </main>
+  </sc-if>
+
+  <footer style="position:relative; z-index:1; text-align:center; padding:28px; font-size:13px; color:var(--muted3, #9a9aa1); border-top:1px solid #dcdde1;">© {{ year }} Okan Efe Öğretmen</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accentColor&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#4f6b8a&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Skill cloud&quot;, &quot;options&quot;: [&quot;#4f6b8a&quot;, &quot;#5c7a5c&quot;, &quot;#6a5c8a&quot;, &quot;#7a5c6a&quot;]},
+  &quot;cloudRadius&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 200, &quot;min&quot;: 80, &quot;max&quot;: 400, &quot;step&quot;: 10, &quot;unit&quot;: &quot;px&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Skill cloud&quot;},
+  &quot;cloudMaxScale&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.3, &quot;min&quot;: 0.05, &quot;max&quot;: 0.6, &quot;step&quot;: 0.05, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Skill cloud&quot;},
+  &quot;wobbleEnabled&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Skill cloud&quot;}
+}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { page: "home" };
+    this.skillData = this.shuffleArray(this.buildSkillData());
+    this.education = this.buildEducation();
+    this.experience = this.buildExperience();
+    this.projects = this.buildProjects();
+    this.publications = this.buildPublications();
+    this.skillRefs = [];
+    this.rafPending = false;
+    this.mouse = null;
+
+    this.onCloudMove = this.onCloudMove.bind(this);
+    this.onCloudLeave = this.onCloudLeave.bind(this);
+    this.goHome = this.goHome.bind(this);
+    this.setPageHome = this.setPageHome.bind(this);
+    this.setPageExperience = this.setPageExperience.bind(this);
+    this.setPageProjects = this.setPageProjects.bind(this);
+    this.setPagePublications = this.setPagePublications.bind(this);
+    this.setPageContact = this.setPageContact.bind(this);
+
+    var self = this;
+    this.canvasRef = function (el) { self.canvas = el; };
+
+    var savedTheme = null;
+    try { savedTheme = window.localStorage.getItem("oeo-theme"); } catch (e) {}
+    var prefersDark = false;
+    try { prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
+    this.state.theme = savedTheme || (prefersDark ? "dark" : "light");
+    this.toggleTheme = this.toggleTheme.bind(this);
+
+    this.buildPointMesh();
+    this.angleY = 0;
+    this.angleX = 0.35;
+    this.logoRef = function (el) { self.logoImg = el; self.updateLogo(); };
+  }
+
+  updateLogo() {
+    if (!this.logoImg) return;
+    var wanted = this.state.theme === "dark" ? "./logo-white.png" : "./slice1-mrphfmwh-og3m.png";
+    if (this.logoImg.getAttribute("src") !== wanted) this.logoImg.setAttribute("src", wanted);
+  }
+
+  buildPointMesh() {
+    // point-cloud scan of a headset visor silhouette: a wide, flattened, rounded superellipsoid shield
+    function pw(w, m) { var s = Math.sin(w), c = Math.cos(w); return { c: (c < 0 ? -1 : 1) * Math.pow(Math.abs(c), m), s: (s < 0 ? -1 : 1) * Math.pow(Math.abs(s), m) }; }
+    var a = 470, b = 175, c = 250;
+    var n1 = 2 / 5, n2 = 2 / 8;
+    this.points = [];
+    var thetaSteps = 26, phiSteps = 46;
+    for (var ti = 0; ti <= thetaSteps; ti++) {
+      var theta = (ti / thetaSteps) * Math.PI - Math.PI / 2;
+      var pt = pw(theta, n1);
+      for (var pi = 0; pi < phiSteps; pi++) {
+        var phi = (pi / phiSteps) * Math.PI * 2 - Math.PI;
+        var pp = pw(phi, n2);
+        var x = a * pt.c * pp.c;
+        var y = b * pt.s;
+        var z = c * pt.c * pp.s;
+        if (z < -30) continue; // keep the front/side shell, drop the open back
+        this.points.push({ x: x, y: y, z: z });
+      }
+    }
+  }
+
+  toggleTheme() {
+    var next = this.state.theme === "dark" ? "light" : "dark";
+    try { window.localStorage.setItem("oeo-theme", next); } catch (e) {}
+    this.setState({ theme: next });
+  }
+
+  themeColors() {
+    return this.state.theme === "dark"
+      ? { dot: "143,179,214", line: "143,179,214" }
+      : { dot: "79,107,138", line: "79,107,138" };
+  }
+
+  componentDidMount() {
+    if (!this.canvas) return;
+    var self = this;
+    function resize() {
+      self.canvas.width = window.innerWidth * devicePixelRatio;
+      self.canvas.height = window.innerHeight * devicePixelRatio;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+    this._resizeHandler = resize;
+
+    function tick() {
+      self.angleY += 0.0016;
+      self.angleX += 0.0006;
+      self.drawPoints();
+      self._raf = requestAnimationFrame(tick);
+    }
+    this._raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._resizeHandler) window.removeEventListener("resize", this._resizeHandler);
+  }
+
+  componentDidUpdate() {
+    this.updateLogo();
+  }
+
+  drawPoints() {
+    var canvas = this.canvas;
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    var w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    var cx = w / 2, cy = h / 2;
+    var focal = 780 * devicePixelRatio;
+    var cosY = Math.cos(this.angleY), sinY = Math.sin(this.angleY);
+    var cosX = Math.cos(this.angleX), sinX = Math.sin(this.angleX);
+    var colors = this.themeColors();
+    var proj = new Array(this.points.length);
+    for (var i = 0; i < this.points.length; i++) {
+      var p = this.points[i];
+      var x1 = p.x * cosY - p.z * sinY;
+      var z1 = p.x * sinY + p.z * cosY;
+      var y1 = p.y * cosX - z1 * sinX;
+      var z2 = p.y * sinX + z1 * cosX;
+      var scale = focal / (focal + z2 + 900);
+      proj[i] = {
+        sx: cx + x1 * scale * devicePixelRatio,
+        sy: cy + y1 * scale * devicePixelRatio,
+        depthT: (z2 + 450) / 900,
+        scale: scale
+      };
+    }
+    for (var j = 0; j < proj.length; j++) {
+      var pj = proj[j];
+      var r = Math.max(0.6, 1.6 * pj.scale) * devicePixelRatio;
+      ctx.beginPath();
+      ctx.arc(pj.sx, pj.sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + colors.dot + "," + (0.1 + pj.depthT * 0.22).toFixed(3) + ")";
+      ctx.fill();
+    }
+  }
+
+  shuffleArray(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  buildSkillData() {
+    return [
+      ["Unity", "XR Development", 30], ["C#", "XR Development", 22],
+      ["Interaction SDK", "XR Development", 16], ["OpenXR", "XR Development", 17],
+      ["SteamVR", "XR Development", 16], ["Vuforia", "XR Development", 17],
+      ["Blender", "3D", 27], ["Autodesk Maya", "3D", 20], ["ZBrush", "3D", 18],
+      ["modeling", "3D", 15], ["texturing", "3D", 15], ["shading", "3D", 15], ["lighting", "3D", 15],
+      ["UI", "Design", 22], ["UX", "Design", 22], ["design thinking", "Design", 27], ["codesign studies", "Design", 27],
+      ["Miro", "Design", 16], ["Photoshop", "Design", 12], ["Illustrator", "Design", 12],
+      ["InDesign", "Design", 12], ["Affinity Designer", "Design", 15],
+      ["RtD", "Research Methods", 27], ["Programmatic Design Research", "Research Methods", 18],
+      ["participant observation", "Research Methods", 27], ["thematic analysis", "Research Methods", 27],
+      ["C-Fuzzy Kano", "Research Methods", 15], ["expert evaluation", "Research Methods", 15],
+      ["Agile/Scrum", "Other", 27],
+      ["photogrammetry", "Other", 26], ["photography", "Other", 15]
+    ];
+  }
+
+  buildEducation() {
+    return [
+      { years: "2020-2026", degree: "PhD, Design, Technology and Society", place: "Koc University, Istanbul, Turkiye",
+        detail: "KARMA Mixed Reality Lab and KUAR Research Center. Funded by TUBITAK 2244 Industrial PhD Fellowship (industry partner: Beko). Dissertation: Exploring the Design Opportunities for Mediated Spatial Interactions Learning from the Kitchen. Supervisor: Assoc. Prof. Asim Evren Yantac." },
+      { years: "2013-2014", degree: "MS, Information Technologies", place: "FMV Isik University, Istanbul, Turkiye", detail: "With scholarship." },
+      { years: "2010-2011", degree: "Game Art and Design", place: "VanArts, Vancouver, BC, Canada", detail: "With scholarship." },
+      { years: "2004-2009", degree: "BS, Physics", place: "FMV Isik University, Istanbul, Turkiye", detail: "With scholarship." }
+    ];
+  }
+
+  buildExperience() {
+    return [
+      { years: "2026-present", role: "Part-Time Instructor", place: "Kadir Has University, Istanbul", detail: "NMD220 - Game Programming." },
+      { years: "2025-present", role: "Part-Time Instructor", place: "Koc University, Istanbul", detail: "Mava357 - Designing Extended Reality Experiences." },
+      { years: "Aug 2024-Feb 2025", role: "Visiting Researcher", place: "DREAM Lab, TU Delft, Netherlands", detail: "Host: Prof. Elvin Karana. Developed augmented and immersive tools for biodesign research, including the HMD-based Cyano Vision passthrough tool (Unity, Meta Quest 3), contributing to the BioDesign 2026 pictorial." },
+      { years: "2020-2026", role: "Teaching Assistant", place: "Koc University, Istanbul", detail: "MAVA 357 Designing Extended Reality Experiences: lectures on 3D modeling in Blender, mentored student groups. MAVA 205 Creative Thinking. DSEG 531 Design for Extended Reality: consulted graduate project groups." },
+      { years: "2020-2026", role: "Mentorship", place: "Meta XR Hackathon, CoskunOz XR Akademi, MEB Bilsem", detail: "Designing The Future With Gifted - VR Egitimi." },
+      { years: "2017-2020", role: "Part-Time Instructor", place: "Graphic Design Dept., FMV Isik University Vocational School", detail: "" },
+      { years: "2011", role: "Teaching Assistant (Maya)", place: "VanArts, Vancouver, BC, Canada", detail: "" }
+    ];
+  }
+
+  buildProjects() {
+    var list = [
+      { year: "2020-2026", title: "Hybrid Connected Kitchens", tools: "Unity (C#), thematic analysis, Continuous Fuzzy Kano Model",
+        blurb: "A four-study programmatic design research arc (Kitchen Talks, Portal, KitchXR, Hybrid Connected Kitchens) investigating XR-mediated communication in domestic spaces. Designed and conducted co-design studies, participant observation, and expert evaluations; built VR/MR prototypes." },
+      { year: "2024-2026", title: "Cultural Heritage with XR", tools: "Photogrammetry, 3D modeling, Unity",
+        blurb: "With Vehbi Koc Vakfi and KARMA Mixed Reality Lab, creating virtual twins of archaeological sites and building immersive experiences with advanced storytelling." },
+      { year: "2024-2025", title: "Gordion Museum App", tools: "Unity, UX/UI design",
+        blurb: "Android tablet application presenting a 3D virtual twin of the Gordion Tomb alongside images from the first excavation. Designed the UX/UI and built the entire application." },
+      { year: "2024-2025", title: "Cyano Vision", tools: "Unity, Meta Quest 3, passthrough",
+        blurb: "Speculative VR passthrough tool, developed at TU Delft, transforming camera data into a representation of cyanobacterial perception for more-than-human biodesign research." },
+      { year: "2022", title: "KUH Surgery VR", tools: "C#, Oculus Interaction Kit, shading",
+        blurb: "VR spine and brain-surgery training environment for Koc University Hospital medical conferences. Level design, modeling and optimization, UI design, and render optimization; basis of the Turkish Neurosurgery publication." },
+      { year: "2021", title: "Knobie", tools: "Unity/Vuforia, HoloLens",
+        blurb: "MR menu-design prototype combining printed recipe cards with sustainability, seasonality, and price scores. Card and UI design, Unity/Vuforia development, HoloLens optimization." },
+      { year: "2021", title: "Dunyali AR", tools: "AR, ideation, 3D design",
+        blurb: "XR consultant for a map and globe publisher on an educational AR application: ideation, UX, 3D design, and development, published on the App Store and Play Store." },
+      { year: "2013", title: "Hacivat and Karagoz Educational Game", tools: "Leap Motion, character design",
+        blurb: "MS thesis project: an educational game for pre-school children based on the traditional Turkish shadow-play characters. 2D/3D character design and gesture-based interaction design." },
+      { year: "2012", title: "Hi-Menu", tools: "iPad, UX/UI, front-end",
+        blurb: "In-restaurant tablet menu and entertainment platform delivering menus and customer entertainment on iPads in restaurants and cafes. Ideation, UX/UI design, front-end development, user testing." }
+    ];
+    for (var i = 0; i < list.length; i++) {
+      list[i].imgId = "proj-" + i;
+      list[i].placeholder = "Drop a screenshot: " + list[i].title;
+    }
+    return list;
+  }
+
+  buildPublications() {
+    return [
+      { text: "Ogretmen, O. E., Cilizoglu, S. and Yantac, A. E. (2026). Augmented Kitchens: XR-Enabled Communication in Active Domestic Workspaces. In Extended Reality - XR Salento 2026, Otranto, Italy. Springer LNCS.", noLink: true },
+      { text: "Ogretmen, O. E., Akbas, S., and Yantac, A. E. (2025). Exploring Designers' Expectations From a Virtual Reality User Insight Tool: KitchXR. In Proceedings of the ACM Symposium on Spatial User Interaction (SUI '25). ACM.", link: "https://doi.org/10.1145/3694907.3765914", linkLabel: "DOI" },
+      { text: "Kim, J., Nicenboim, I., Ogretmen, O. E., Martins, J., and Karana, E. (2026). From machinery to sensibility: (Un)learning cyanobacteria between biological laboratory practice and more-than-human exploration. BioDesign Conference 2026, TU Delft, Delft, Netherlands (peer-reviewed pictorial).", noLink: true },
+      { text: "Akgun, M. Y., Baran, O., Ogretmen, E., Ucar, E. A., Oktenoglu, T., Akyoldas, G., Ozer, A. F., and Ates, O. (2024). Use of 3-Dimensional Modeling and Virtual Reality in the Education of Posterior Spinal Instrumentation. Turkish Neurosurgery, 958-965.", link: "https://doi.org/10.5137/1019-5149.JTN.46204-24.1", linkLabel: "DOI" },
+      { text: "Ogretmen, O. E., Cilizoglu, S. and Yantac, A. E. Hybrid Connected Kitchens: Phygital Social XR for Domestic Communication and Collaboration. Under review at a peer-reviewed journal (Springer).", noLink: true }
+    ];
+  }
+
+  goHome() { this.setState({ page: "home" }); }
+  setPageHome() { this.setState({ page: "home" }); }
+  setPageExperience() { this.setState({ page: "experience" }); }
+  setPageProjects() { this.setState({ page: "projects" }); }
+  setPagePublications() { this.setState({ page: "publications" }); }
+  setPageContact() { this.setState({ page: "contact" }); }
+
+  onCloudMove(e) {
+    var rect = e.currentTarget.getBoundingClientRect();
+    this.mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    this.scheduleUpdate();
+  }
+
+  onCloudLeave() {
+    this.mouse = null;
+    this.scheduleUpdate();
+  }
+
+  scheduleUpdate() {
+    if (this.rafPending) return;
+    this.rafPending = true;
+    var self = this;
+    requestAnimationFrame(function () {
+      self.rafPending = false;
+      self.applyProximity();
+    });
+  }
+
+  applyProximity() {
+    var mouse = this.mouse;
+    var maxDist = this.props.cloudRadius || 200;
+    var maxScale = this.props.cloudMaxScale || 1.1;
+    var accent = this.props.accentColor || "#4f6b8a";
+    this.skillRefs.forEach(function (refs) {
+      if (!refs || !refs.wrap || !refs.inner) return;
+      var scale = 0.95, color = "var(--ink2, #2f3033)";
+      if (mouse) {
+        var cx = refs.wrap.offsetLeft + refs.wrap.offsetWidth / 2;
+        var cy = refs.wrap.offsetTop + refs.wrap.offsetHeight / 2;
+        var dx = mouse.x - cx, dy = mouse.y - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        // smoothstep falloff for an organic curve instead of a linear/hard-edged one
+        var x = Math.max(0, Math.min(1, 1 - dist / maxDist));
+        var t = x * x * (3 - 2 * x);
+        scale = 0.95 + t * maxScale;
+        if (t > 0.12) color = accent;
+      }
+      refs.inner.style.transform = "scale(" + scale.toFixed(3) + ")";
+      refs.inner.style.color = color;
+    });
+  }
+
+  renderVals() {
+    var self = this;
+    var page = this.state.page;
+    function underline(p) { return page === p ? "1px solid var(--accent, #4f6b8a)" : "1px solid transparent"; }
+    this.skillRefs = this.skillRefs.slice(0, this.skillData.length);
+
+    var wobbleEnabled = this.props.wobbleEnabled !== false;
+    var skills = this.skillData.map(function (row, i) {
+      var label = row[0], category = row[1], size = row[2];
+      if (!self.skillRefs[i]) self.skillRefs[i] = {};
+      var dur = (4 + (i % 5) * 0.6).toFixed(2);
+      var delay = ((i % 7) * 0.35).toFixed(2);
+      var jitterTop = Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1) * 12 - 3;
+      var style = "display:inline-block; margin: " + jitterTop.toFixed(1) + "px 1.5px;";
+      if (wobbleEnabled) style += " animation: wobble " + dur + "s ease-in-out " + delay + "s infinite alternate;";
+      return {
+        label: label, category: category, size: size,
+        wobbleStyle: style,
+        wrapRef: function (el) { self.skillRefs[i].wrap = el; },
+        innerRef: function (el) { self.skillRefs[i].inner = el; }
+      };
+    });
+
+    return {
+      isHome: page === "home", isExperience: page === "experience", isProjects: page === "projects",
+      isPublications: page === "publications", isContact: page === "contact",
+      homeUnderline: underline("home"), experienceUnderline: underline("experience"), projectsUnderline: underline("projects"),
+      publicationsUnderline: underline("publications"), contactUnderline: underline("contact"),
+      goHome: this.goHome, setPageHome: this.setPageHome, setPageExperience: this.setPageExperience, setPageProjects: this.setPageProjects,
+      setPagePublications: this.setPagePublications, setPageContact: this.setPageContact,
+      themeName: this.state.theme, themeLabel: this.state.theme === "dark" ? "Dark" : "Light", toggleTheme: this.toggleTheme,
+      logoRef: this.logoRef,
+      onCloudMove: this.onCloudMove, onCloudLeave: this.onCloudLeave, canvasRef: this.canvasRef,
+      skills: skills, education: this.education, experience: this.experience,
+      projects: this.projects, publications: this.publications,
+      year: new Date().getFullYear()
+    };
+  }
+}
+</script>
+</body>
+</html>
