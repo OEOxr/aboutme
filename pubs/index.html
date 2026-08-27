@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <title>Publications — Okan Efe Öğretmen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink:        #1c1917;
+      --ink-mid:    #57534e;
+      --ink-faint:  #a8a29e;
+      --paper:      #fafaf9;
+      --rule:       #e7e5e4;
+      --accent:     #2d5a8e;
+      --accent-dim: #dbe8f4;
+      --hover-bg:   #f5f9ff;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Page shell ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 0 6rem;
+    }
+
+    /* ── Header ── */
+    header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1.5px solid var(--ink);
+    }
+
+    .header-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    header p {
+      margin-top: 0.6rem;
+      font-size: 1rem;
+      color: var(--ink-mid);
+      font-style: italic;
+    }
+
+    /* ── Publications list ── */
+    .pub-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .pub-item {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pub-item:first-child {
+      border-top: 1px solid var(--rule);
+    }
+
+    .pub-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.4rem 0.75rem 1.4rem 1rem;
+      text-decoration: none;
+      color: inherit;
+      border-left: 3px solid transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .pub-link:hover,
+    .pub-link:focus-visible {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      outline: none;
+    }
+
+    .pub-link:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+
+    /* PDF icon */
+    .pub-icon {
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pub-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: var(--accent);
+      opacity: 0.55;
+      transition: opacity 0.15s;
+    }
+
+    .pub-link:hover .pub-icon svg {
+      opacity: 1;
+    }
+
+    /* Text block */
+    .pub-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pub-title {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 0.25rem;
+    }
+
+    .pub-filename {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.01em;
+    }
+
+    /* Arrow indicator */
+    .pub-arrow {
+      flex-shrink: 0;
+      align-self: center;
+      font-size: 0.9rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s, transform 0.15s;
+      transform: translateX(-4px);
+    }
+
+    .pub-link:hover .pub-arrow,
+    .pub-link:focus-visible .pub-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ── Download all ── */
+    .download-all-wrap {
+      margin-top: 2rem;
+    }
+
+    .download-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.25rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+
+    .download-all-btn:hover,
+    .download-all-btn:focus-visible {
+      background: var(--accent);
+      color: #fff;
+      outline: none;
+    }
+
+    .download-all-btn:focus-visible {
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .download-all-btn svg {
+      width: 1rem;
+      height: 1rem;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .download-all-btn:disabled {
+      opacity: 0.45;
+      cursor: wait;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      body { padding: 0 1rem; }
+      .page { padding: 3rem 0 4rem; }
+      .pub-arrow { display: none; }
+      .pub-link { padding: 1.2rem 0 1.2rem 0.75rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pub-link, .pub-icon svg, .pub-arrow { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header>
+      <p class="header-eyebrow">Preprints &amp; Publications</p>
+      <h1>Okan Efe Öğretmen</h1>
+      <p>Human–Computer Interaction · Extended Reality · Hybrid Connected Spaces</p>
+    </header>
+
+    <ul class="pub-list">
+
+      <li class="pub-item">
+        <a class="pub-link" href="OEO_PhD_Thesis-preprint.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">PhD Thesis — Hybrid Connected Phygital Spaces &amp; XR-Mediated Social Communication</span>
+            <span class="pub-filename">OEO_PhD_Thesis-preprint.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="pub-item">
+        <a class="pub-link" href="Hybrid_Connected_Kitchens -preprint.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">Hybrid Connected Kitchens — Designing for Togetherness Across Distance</span>
+            <span class="pub-filename">Hybrid_Connected_Kitchens -preprint.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="pub-item">
+        <a class="pub-link" href="Kitchen_Talks___XRSalento-preprint.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">Kitchen Talks — XR-Mediated Communication in Shared Cooking Contexts (XR Salento 2026)</span>
+            <span class="pub-filename">Kitchen_Talks___XRSalento-preprint.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="pub-item">
+        <a class="pub-link" href="KitchXR-SUI25.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">KitchXR — Spatial User Interface Design for Kitchen Environments (SUI 2025)</span>
+            <span class="pub-filename">KitchXR-SUI25.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="pub-item">
+        <a class="pub-link" href="From_machinery_to_sensibility-preprint.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">From Machinery to Sensibility — Rethinking XR Design Approaches</span>
+            <span class="pub-filename">From_machinery_to_sensibility-preprint.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="pub-item">
+        <a class="pub-link" href="VR_in_Education_of_Posterior_Spinal_Instrumentation.pdf" target="_blank" rel="noopener">
+          <span class="pub-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM9.5 13h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm0-5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+          </span>
+          <span class="pub-text">
+            <span class="pub-title">VR in the Education of Posterior Spinal Instrumentation</span>
+            <span class="pub-filename">VR_in_Education_of_Posterior_Spinal_Instrumentation.pdf</span>
+          </span>
+          <span class="pub-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+    </ul>
+
+    <div class="download-all-wrap">
+      <button class="download-all-btn" id="downloadAllBtn" onclick="downloadAll()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 16l-5-5 1.41-1.41L11 13.17V4h2v9.17l2.59-2.58L17 11l-5 5zm-7 2h14v2H5v-2z"/>
+        </svg>
+        Download all files
+      </button>
+    </div>
+
+    <footer>
+      <span>Not indexed · Private distribution only</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const FILES = [
+      "OEO_PhD_Thesis-preprint.pdf",
+      "Hybrid_Connected_Kitchens -preprint.pdf",
+      "Kitchen_Talks___XRSalento-preprint.pdf",
+      "KitchXR-SUI25.pdf",
+      "From_machinery_to_sensibility-preprint.pdf",
+      "VR_in_Education_of_Posterior_Spinal_Instrumentation.pdf"
+    ];
+
+    async function downloadAll() {
+      const btn = document.getElementById('downloadAllBtn');
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="fill:currentColor;width:1rem;height:1rem;flex-shrink:0">
+          <path d="M12 16l-5-5 1.41-1.41L11 13.17V4h2v9.17l2.59-2.58L17 11l-5 5zm-7 2h14v2H5v-2z"/>
+        </svg>
+        Downloading…`;
+
+      for (const filename of FILES) {
+        const a = document.createElement('a');
+        a.href = filename;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // Small delay so browsers don't block rapid-fire downloads
+        await new Promise(r => setTimeout(r, 600));
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = `
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="fill:currentColor;width:1rem;height:1rem;flex-shrink:0">
+          <path d="M12 16l-5-5 1.41-1.41L11 13.17V4h2v9.17l2.59-2.58L17 11l-5 5zm-7 2h14v2H5v-2z"/>
+        </svg>
+        Download all files`;
+    }
+  </script>
+</body>
+</html>
