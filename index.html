@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Nunito:wght@600;700&amp;family=Lato:wght@400;600&amp;display=swap">
   <style>
     html, body { margin: 0; padding: 0; background: var(--bg, #eff0f1); }
+    html { -webkit-text-size-adjust: 100%; }
+    body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
     * { box-sizing: border-box; }
     ::selection { background: var(--selection, #d9dce0); }
     @keyframes wobble {
@@ -40,41 +42,49 @@
 
   
 
-  <header style="position:sticky; top:0; z-index:20; background:var(--bg-elevated, rgba(239,240,241,0.92)); backdrop-filter:blur(6px); border-bottom:1px solid var(--border, #dcdde1); display:flex; align-items:center; justify-content:space-between; padding:18px 40px;">
-    <img onClick="{{ goHome }}" ref="{{ logoRef }}" src="./slice1-mrphfmwh-og3m.png" alt="Okan Efe Öğretmen" style="cursor: pointer; height: 114px; width: 235px; display: block; object-fit: scale-down">
-    <nav style="display:flex; gap:32px; font-size:15px;">
+  <header style="position:sticky; top:0; z-index:20; background:var(--bg-elevated, rgba(239,240,241,0.92)); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border-bottom:1px solid var(--border, #dcdde1); display:flex; align-items:center; justify-content:space-between; gap:12px; padding:clamp(8px, 1.6vw, 18px) clamp(16px, 4vw, 40px);">
+    <img onClick="{{ goHome }}" ref="{{ logoRef }}" src="./slice1-mrphfmwh-og3m.png" alt="Okan Efe Öğretmen" style="cursor:pointer; height:clamp(48px, 9vw, 114px); width:auto; aspect-ratio:235/114; max-width:55vw; display:block; object-fit:scale-down;">
+    <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:clamp(16px, 2.4vw, 32px); font-size:15px;">
       <span onClick="{{ setPageHome }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ homeUnderline }};">Home</span>
       <span onClick="{{ setPageExperience }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ experienceUnderline }};">Experience</span>
       <span onClick="{{ setPageProjects }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ projectsUnderline }};">Projects</span>
       <span onClick="{{ setPagePublications }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ publicationsUnderline }};">Publications</span>
       <span onClick="{{ setPageContact }}" style="cursor:pointer; padding-bottom:4px; border-bottom:{{ contactUnderline }};">Contact</span>
       <span onClick="{{ toggleTheme }}" title="Toggle light/dark" style="cursor:pointer; border:1px solid var(--border, #dcdde1); border-radius:20px; padding:4px 12px; font-size:13px; color:var(--muted, #6c6d72);">{{ themeLabel }}</span>
-    </nav>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ compactNav }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button onClick="{{ toggleTheme }}" title="Toggle light/dark" style="height:44px; padding:0 16px; border:1px solid var(--border, #dcdde1); border-radius:22px; background:transparent; color:var(--muted, #6c6d72); font-family:'IBM Plex Sans',sans-serif; font-size:13px; cursor:pointer;">{{ themeLabel }}</button>
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpenStr }}" style="width:44px; height:44px; padding:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; background:transparent; border:1px solid var(--border, #dcdde1); border-radius:12px; cursor:pointer;">
+          <span style="display:block; width:18px; height:1.5px; background:var(--ink, #1f2023); transition:transform 0.2s; transform:{{ bar1 }};"></span>
+          <span style="display:block; width:18px; height:1.5px; background:var(--ink, #1f2023); transition:opacity 0.2s; opacity:{{ bar2 }};"></span>
+          <span style="display:block; width:18px; height:1.5px; background:var(--ink, #1f2023); transition:transform 0.2s; transform:{{ bar3 }};"></span>
+        </button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ menuVisible }}" hint-placeholder-val="{{ false }}">
+      <nav style="position:absolute; top:100%; left:0; right:0; background:var(--bg, #eff0f1); border-bottom:1px solid var(--border, #dcdde1); box-shadow:0 14px 28px rgba(0,0,0,0.08); display:flex; flex-direction:column; padding:4px clamp(16px, 4vw, 40px) 12px;">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+          <span onClick="{{ n.go }}" style="display:flex; align-items:center; min-height:52px; font-size:17px; cursor:pointer; border-bottom:1px solid var(--border2, #e4e4e8); color:{{ n.color }}; font-weight:{{ n.weight }};">{{ n.label }}</span>
+        </sc-for>
+      </nav>
+    </sc-if>
   </header>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:64px 32px 100px;">
-      <p style="font-size: 35px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink, #1f2023); font-weight: 800; margin: 0 0 12px; font-family: Nunito; width: 816px; height: 43px">Okan Efe Öğretmen</p>
-      <h1 style="font-family: Lato; font-size: 20px; font-weight: 400; line-height: 1.15; margin: 0 0 10px; color: #9EA3AD">Soon-to-be Ph.D. (Aug 2026) &amp; XR Designer-Researcher</h1>
-      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 36px;">Koç University · KARMA Mixed Reality Lab · Sarıyer, İstanbul</p>
+    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%;">
+      <p style="font-size: clamp(22px, 4.6vw, 35px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink, #1f2023); font-weight: 800; margin: 0 0 12px; font-family: Nunito; max-width:100%;">Okan Efe Öğretmen</p>
+      <h1 style="font-family: Lato; font-size: clamp(18px, 2.4vw, 20px); font-weight: 400; line-height: 1.15; margin: 0 0 10px; color: #9EA3AD">XR Designer-Researcher · Interaction Designer · Developer</h1>
+      <p style="font-size: 16px; color: var(--muted, #6c6d72); margin: 0 0 36px; opacity: 0">Koç University · KARMA Mixed Reality Lab · Sarıyer, İstanbul</p>
 
-      <p style="font-size: 18px; line-height: 1.7; margin: 0 0 20px; text-wrap: pretty; width: 817px; height: 202px">
-        I'm a multidisciplinary researcher, designer, and developer of consumer and enterprise XR experiences —
-        a fast learner, creative, and passionate about visual design, ambitious to predict and shape the future
-        by creating. My Ph.D. work explores XR-mediated communication in domestic spaces, spanning co-design
-        studies, participant observation, and Unity/C# prototyping, evaluated through thematic analysis and the
-        Continuous Fuzzy Kano Model.
-      </p>
-      <p style="font-size:18px; line-height:1.7; margin:0 0 48px; text-wrap:pretty;">
-        <strong>I'm graduating with my Ph.D. in August and actively looking for an assistant professor position.</strong>
-        I'm also up for jumping into projects as an XR &amp; full-stack developer, and I'd love to team up with a lab
-        as a visiting researcher — thinking about UX research through XR, weaving XR into product design, bringing
-        it into everyday spaces like the kitchen, or designing UI for XR.
-      </p>
+      <p style="font-size: clamp(16px, 2.2vw, 18px); line-height: 1.7; margin: 0 0 20px; text-wrap: pretty; max-width:100%;">I’m a multidisciplinary researcher, designer, and developer working across XR, interaction design, and immersive experiences for consumer and enterprise contexts. I’m a fast learner and creative problem-solver, passionate about visual design and exploring how emerging technologies can shape future forms of interaction and everyday experiences. <br><br>&nbsp;I recently completed my Ph.D. in Design, Technology and Society at Koç University. My doctoral research explored XR-mediated communication in domestic spaces, combining co-design studies, participant observation, and Unity/C# prototyping with qualitative analysis and the Continuous Fuzzy Kano Model.</p>
+      <div style="font-size:clamp(16px, 2.2vw, 18px); line-height:1.7; margin:0 0 48px; text-wrap:pretty;"><div><b>I’m currently seeking academic opportunities</b>, particularly faculty positions in XR, HCI, interaction design, and related fields. I’m also <b>open to collaborating on research and development projects</b> as an XR developer, interaction designer, or full-stack developer, and to visiting-researcher opportunities with labs working on XR, UX research, product design, spatial interaction, or immersive interfaces.</div><div><br></div><div>My research and design interests include UX research through XR, XR-enhanced product design, XR in everyday domestic environments, spatial interaction, and UI/interaction design for immersive experiences.</div></div>
 
       <h2 style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent, #4f6b8a); margin:0 0 8px;">Skills</h2>
-      <p style="font-size:14px; color:var(--muted2, #86868d); margin:0 0 8px;">Move your mouse across the cloud — words wake up nearby.</p>
-      <div onMouseMove="{{ onCloudMove }}" onMouseLeave="{{ onCloudLeave }}" style="position:relative; display:flex; flex-wrap:wrap; gap:0px 2px; align-items:center; justify-content:center; padding:28px 20px; margin:0 0 56px; border-top:1px solid #dcdde1; border-bottom:1px solid var(--border, #dcdde1); user-select:none;">
+      <p style="font-size:14px; color:var(--muted2, #86868d); margin:0 0 8px;">{{ cloudHint }}</p>
+      <div onMouseMove="{{ onCloudMove }}" onMouseLeave="{{ onCloudLeave }}" onTouchStart="{{ onCloudTouch }}" onTouchMove="{{ onCloudTouch }}" onTouchEnd="{{ onCloudLeave }}" style="position:relative; touch-action:pan-y; display:flex; flex-wrap:wrap; gap:0px 2px; align-items:center; justify-content:center; padding:clamp(18px, 3vw, 28px) clamp(4px, 2vw, 20px); margin:0 0 56px; border-top:1px solid #dcdde1; border-bottom:1px solid var(--border, #dcdde1); user-select:none;">
         <sc-for list="{{ skills }}" as="s" hint-placeholder-count="26">
           <div ref="{{ s.wrapRef }}" style="{{ s.wobbleStyle }}" title="{{ s.category }}">
             <span ref="{{ s.innerRef }}" style="display:inline-block; font-family:'IBM Plex Sans',sans-serif; font-size:{{ s.size }}px; font-weight:500; color:var(--ink2, #2f3033); white-space:nowrap; transition: transform 0.18s cubic-bezier(.22,1,.36,1), color 0.18s;">{{ s.label }}</span>
@@ -84,9 +94,9 @@
 
       <h2 style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent, #4f6b8a); margin:0 0 20px;">Education</h2>
       <sc-for list="{{ education }}" as="e" hint-placeholder-count="4">
-        <div style="display:flex; gap:24px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
-          <div style="width:110px; flex-shrink:0; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ e.years }}</div>
-          <div>
+        <div style="display:flex; flex-wrap:wrap; column-gap:24px; row-gap:4px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
+          <div style="flex:0 0 110px; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ e.years }}</div>
+          <div style="flex:1 1 280px; min-width:0;">
             <div style="font-size:17px; font-weight:600;">{{ e.degree }}</div>
             <div style="font-size:15px; color:var(--muted, #6c6d72); margin:2px 0 6px;">{{ e.place }}</div>
             <div style="font-size:15px; line-height:1.6; color:var(--ink2, #2f3033);">{{ e.detail }}</div>
@@ -98,12 +108,12 @@
   </sc-if>
 
   <sc-if value="{{ isExperience }}" hint-placeholder-val="{{ false }}">
-    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:64px 32px 100px;">
-      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 40px;">Experience</h1>
+    <main style="position:relative; z-index:1; flex:1; max-width:880px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(28px, 5.4vw, 38px); font-weight:600; margin:0 0 40px;">Experience</h1>
       <sc-for list="{{ experience }}" as="x" hint-placeholder-count="7">
-        <div style="display:flex; gap:24px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
-          <div style="width:110px; flex-shrink:0; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ x.years }}</div>
-          <div>
+        <div style="display:flex; flex-wrap:wrap; column-gap:24px; row-gap:4px; padding:16px 0; border-bottom:1px solid var(--border2, #e4e4e8);">
+          <div style="flex:0 0 110px; font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; padding-top:2px;">{{ x.years }}</div>
+          <div style="flex:1 1 280px; min-width:0;">
             <div style="font-size:17px; font-weight:600;">{{ x.role }}</div>
             <div style="font-size:15px; color:var(--muted, #6c6d72); margin:2px 0 6px;">{{ x.place }}</div>
             <div style="font-size:15px; line-height:1.6; color:var(--ink2, #2f3033);">{{ x.detail }}</div>
@@ -114,20 +124,27 @@
   </sc-if>
 
   <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
-    <main style="position:relative; z-index:1; flex:1; max-width:1000px; margin:0 auto; padding:64px 32px 100px; width:100%;">
-      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 12px;">Selected Projects</h1>
-      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 48px; max-width:640px;">XR, spatial design, and design-research work from 2011 to present. Drop a screenshot into any frame below.</p>
-      <div style="display:flex; flex-direction:column; gap:56px;">
+    <main style="position:relative; z-index:1; flex:1; max-width:1000px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(28px, 5.4vw, 38px); font-weight:600; margin:0 0 12px;">Selected Projects</h1>
+      <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 48px; max-width:640px;">XR, spatial design, and design-research work from 2011 to present. Select a project to see the full story.</p>
+      <div style="display:flex; flex-direction:column; gap:clamp(40px, 6vw, 56px);">
         <sc-for list="{{ projects }}" as="p" hint-placeholder-count="9">
-          <div style="display:grid; grid-template-columns:340px 1fr; gap:32px; align-items:start;">
-            <div style="width:340px; height:210px; border-radius:4px; overflow:hidden; border:1px solid var(--border, #dcdde1);">
-              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ p.imgId }}" placeholder="{{ p.placeholder }}" shape="rect" hint-size="340px,210px" style="width:100%;height:100%;"></x-import>
+          <div onClick="{{ p.open }}" style="display:flex; flex-wrap:wrap; gap:clamp(14px, 2.4vw, 24px); align-items:flex-start; cursor:pointer;">
+            <div style="flex:1 1 300px; max-width:100%; aspect-ratio:16/10; border-radius:4px; overflow:hidden; border:1px solid var(--border, #dcdde1); background:var(--border2, #e4e4e8);">
+              <sc-if value="{{ p.hasCover }}" hint-placeholder-val="{{ false }}">
+                <!-- COVER IMAGE: this img shows each project's cover. Set the address per project in PROJECTS → cover: "./images/your-file.jpg" (in the script below). -->
+                <img ref="{{ p.coverRef }}" alt="{{ p.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+              </sc-if>
+              <sc-if value="{{ p.noCover }}" hint-placeholder-val="{{ true }}">
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--muted2, #86868d)">Cover image</div>
+              </sc-if>
             </div>
-            <div>
+            <div style="flex:1.4 1 300px; min-width:0;">
               <div style="font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; margin-bottom:4px;">{{ p.year }}</div>
-              <div style="font-family:'IBM Plex Sans',sans-serif; font-size:22px; font-weight:600; margin-bottom:8px;">{{ p.title }}</div>
+              <div style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(19px, 2.6vw, 22px); font-weight:600; margin-bottom:8px;">{{ p.title }}</div>
               <p style="font-size:15.5px; line-height:1.65; color:var(--ink2, #2f3033); margin:0 0 10px; text-wrap:pretty;">{{ p.blurb }}</p>
-              <div style="font-size:13px; color:var(--muted2, #86868d);">{{ p.tools }}</div>
+              <div style="font-size:13px; color:var(--muted2, #86868d); margin-bottom:12px;">{{ p.tools }}</div>
+              <div style="font-size:14px; font-weight:600; color:var(--accent, #4f6b8a);">View project →</div>
             </div>
           </div>
         </sc-for>
@@ -135,11 +152,42 @@
     </main>
   </sc-if>
 
+  <sc-if value="{{ isProject }}" hint-placeholder-val="{{ false }}">
+    <main style="position:relative; z-index:1; flex:1; max-width:1100px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%;">
+      <span onClick="{{ setPageProjects }}" style="cursor:pointer; font-size:14px; color:var(--accent, #4f6b8a); font-weight:600;">← All projects</span>
+      <div style="font-size:13px; color:var(--accent, #4f6b8a); font-weight:600; margin:28px 0 6px;">{{ current.year }}</div>
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(28px, 5.4vw, 38px); font-weight:600; line-height:1.15; margin:0 0 12px; text-wrap:balance;">{{ current.title }}</h1>
+      <div style="font-size:14px; color:var(--muted, #6c6d72); margin:0 0 32px;">{{ current.tools }}</div>
+      <div style="width:100%; aspect-ratio:16/9; border-radius:6px; overflow:hidden; border:1px solid var(--border, #dcdde1); background:var(--border2, #e4e4e8); margin:0 0 36px;">
+        <sc-if value="{{ current.hasCover }}" hint-placeholder-val="{{ false }}">
+          <img ref="{{ current.coverRef }}" alt="{{ current.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </sc-if>
+        <sc-if value="{{ current.noCover }}" hint-placeholder-val="{{ true }}">
+          <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--muted2, #86868d);">Cover image</div>
+        </sc-if>
+      </div>
+      <p style="font-size:clamp(16px, 2.2vw, 18px); line-height:1.75; color:var(--ink2, #2f3033); margin:0 0 48px; max-width:760px; text-wrap:pretty;">{{ current.blurb }}</p>
+      <h2 style="font-size:15px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent, #4f6b8a); margin:0 0 18px;">Gallery</h2>
+      <sc-if value="{{ current.hasGallery }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap:16px;">
+          <sc-for list="{{ current.galleryItems }}" as="g" hint-placeholder-count="4">
+            <div onClick="{{ g.zoom }}" style="border-radius:6px; overflow:hidden; border:1px solid var(--border, #dcdde1); background:var(--border2, #e4e4e8); cursor:zoom-in; transition:transform 0.2s, box-shadow 0.2s;" style-hover="transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.12);">
+              <img ref="{{ g.ref }}" alt="{{ g.alt }}" loading="lazy" style="width:100%; height:auto; display:block;">
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ current.noGallery }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:40px 20px; border:1px dashed var(--border, #dcdde1); border-radius:6px; text-align:center; font-size:14px; color:var(--muted2, #86868d);">Gallery images will appear here.</div>
+      </sc-if>
+    </main>
+  </sc-if>
+
   <sc-if value="{{ isPublications }}" hint-placeholder-val="{{ false }}">
-    <main style="position:relative; z-index:1; flex:1; max-width:800px; margin:0 auto; padding:64px 32px 100px;">
-      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 40px;">Publications</h1>
+    <main style="position:relative; z-index:1; flex:1; max-width:800px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(28px, 5.4vw, 38px); font-weight:600; margin:0 0 40px;">Publications</h1>
       <sc-for list="{{ publications }}" as="pub" hint-placeholder-count="5">
-        <div style="padding:18px 0; border-bottom:1px solid var(--border2, #e4e4e8); font-size:15.5px; line-height:1.7;">
+        <div style="padding:18px 0; border-bottom:1px solid var(--border2, #e4e4e8); font-size:15.5px; line-height:1.7; overflow-wrap:break-word;">
           <sc-if value="{{ pub.link }}" hint-placeholder-val="{{ false }}">
             <span>{{ pub.text }} <a href="{{ pub.link }}" target="_blank" rel="noopener">{{ pub.linkLabel }}</a></span>
           </sc-if>
@@ -152,19 +200,35 @@
   </sc-if>
 
   <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
-    <main style="position:relative; z-index:1; flex:1; max-width:640px; margin:0 auto; padding:80px 32px 120px; text-align:center;">
-      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:38px; font-weight:600; margin:0 0 12px;">Get in touch</h1>
+    <main style="position:relative; z-index:1; flex:1; max-width:640px; margin:0 auto; padding:clamp(36px, 7vw, 64px) clamp(18px, 4.5vw, 32px) clamp(64px, 10vw, 100px); width:100%; text-align:center;">
+      <h1 style="font-family:'IBM Plex Sans',sans-serif; font-size:clamp(28px, 5.4vw, 38px); font-weight:600; margin:0 0 12px;">Get in touch</h1>
       <p style="font-size:16px; color:var(--muted, #6c6d72); margin:0 0 48px;">Sarıyer · İstanbul · Türkiye</p>
 
       <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
+
         <a href="#" data-paperform-id="oefeo" data-popup-button="1" style="font-size:19px;">Send Direct Message</a>
         <script>(function() { var script = document.createElement('script'); script.src = "https://paperform.co/__embed.min.js";document.body.appendChild(script); })()</script>
 
-        <a href="https://www.linkedin.com/in/efeogr" target="_blank" rel="noopener" style="font-size:19px;">LinkedIn ↗</a>
-        <span onClick="{{ setPageProjects }}" style="font-size:19px; cursor:pointer;">Browse projects ↗</span>
-        <a href="./Okan-Efe-Ogretmen-CV.pdf" download="" style="font-size:19px;">Download CV (PDF) ↓</a>
+        <a href="https://www.linkedin.com/in/efeogr" target="_blank" rel="noopener" style="font-size:clamp(17px, 2.4vw, 19px);">LinkedIn ↗</a>
+        <a href="https://vimeo.com/efeog" target="_blank" rel="noopener" style="font-size:clamp(17px, 2.4vw, 19px);">Vimeo ↗</a>
+        <span onClick="{{ setPageProjects }}" style="font-size:clamp(17px, 2.4vw, 19px); cursor:pointer;">Browse projects ↗</span>
+        <a href="./Okan-Efe-Ogretmen-CV.pdf" download="" style="font-size:clamp(17px, 2.4vw, 19px);">Download CV (PDF) ↓</a>
       </div>
     </main>
+  </sc-if>
+
+  <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ lbClose }}" onTouchStart="{{ lbTouchStart }}" onTouchEnd="{{ lbTouchEnd }}" role="dialog" aria-modal="true" style="position:fixed; inset:0; z-index:100; background:rgba(12,13,16,0.9); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:clamp(56px, 8vh, 72px) clamp(8px, 7vw, 96px);">
+      <img ref="{{ lbRef }}" alt="{{ lbAlt }}" onClick="{{ stop }}" style="max-width:100%; max-height:100%; object-fit:contain; display:block; border-radius:4px; box-shadow:0 20px 60px rgba(0,0,0,0.5); user-select:none;">
+      <div style="position:absolute; top:14px; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:0 clamp(12px, 3vw, 24px); color:#e7e8ea; font-family:'IBM Plex Sans',sans-serif; font-size:14px; pointer-events:none;">
+        <span style="letter-spacing:0.04em;">{{ lbCounter }}</span>
+        <button onClick="{{ lbClose }}" aria-label="Close" style="pointer-events:auto; width:44px; height:44px; border-radius:22px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.08); color:#fff; font-size:22px; line-height:1; cursor:pointer;" style-hover="background:rgba(255,255,255,0.18);">×</button>
+      </div>
+      <sc-if value="{{ lbMulti }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ lbPrev }}" aria-label="Previous image" style="position:absolute; left:clamp(8px, 2vw, 24px); top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:24px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.08); color:#fff; font-size:22px; cursor:pointer;" style-hover="background:rgba(255,255,255,0.18);">‹</button>
+        <button onClick="{{ lbNext }}" aria-label="Next image" style="position:absolute; right:clamp(8px, 2vw, 24px); top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:24px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.08); color:#fff; font-size:22px; cursor:pointer;" style-hover="background:rgba(255,255,255,0.18);">›</button>
+      </sc-if>
+    </div>
   </sc-if>
 
   <footer style="position:relative; z-index:1; text-align:center; padding:28px; font-size:13px; color:var(--muted3, #9a9aa1); border-top:1px solid #dcdde1;">© {{ year }} Okan Efe Öğretmen</footer>
@@ -179,7 +243,7 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { page: "home" };
+    this.state = { page: "home", menuOpen: false, width: (typeof window !== "undefined" ? window.innerWidth : 1200) };
     this.skillData = this.shuffleArray(this.buildSkillData());
     this.education = this.buildEducation();
     this.experience = this.buildExperience();
@@ -207,6 +271,22 @@ class Component extends DCLogic {
     try { prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
     this.state.theme = savedTheme || (prefersDark ? "dark" : "light");
     this.toggleTheme = this.toggleTheme.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.lbClose = this.closeLightbox.bind(this);
+    this.lbPrev = function (e) { if (e) e.stopPropagation(); self.stepLightbox(-1); };
+    this.lbNext = function (e) { if (e) e.stopPropagation(); self.stepLightbox(1); };
+    this.stop = function (e) { e.stopPropagation(); };
+    this.lbTouchStart = function (e) { var t = e.touches && e.touches[0]; self._tx = t ? t.clientX : null; };
+    this.lbTouchEnd = function (e) {
+      var t = e.changedTouches && e.changedTouches[0];
+      if (self._tx == null || !t) return;
+      var dx = t.clientX - self._tx; self._tx = null;
+      if (Math.abs(dx) > 50) { e.preventDefault(); self.stepLightbox(dx < 0 ? 1 : -1); }
+    };
+    this.onLbKey = this.onLbKey.bind(this);
+    this.lbRef = function (el) { self.lbImg = el; self.syncLbImg(); };
+    this.onCloudTouch = this.onCloudTouch.bind(this);
+    try { this.isTouch = window.matchMedia("(hover: none)").matches; } catch (e) { this.isTouch = false; }
 
     this.buildPointMesh();
     this.angleY = 0;
@@ -255,11 +335,20 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
+    window.addEventListener("keydown", this.onLbKey);
     if (!this.canvas) return;
     var self = this;
+    var widthRafPending = false;
     function resize() {
       self.canvas.width = window.innerWidth * devicePixelRatio;
       self.canvas.height = window.innerHeight * devicePixelRatio;
+      if (!widthRafPending) {
+        widthRafPending = true;
+        requestAnimationFrame(function () {
+          widthRafPending = false;
+          if (self.state.width !== window.innerWidth) self.setState({ width: window.innerWidth });
+        });
+      }
     }
     resize();
     window.addEventListener("resize", resize);
@@ -275,11 +364,15 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
+    window.removeEventListener("keydown", this.onLbKey);
+    try { document.body.style.overflow = ""; } catch (e) {}
     if (this._raf) cancelAnimationFrame(this._raf);
     if (this._resizeHandler) window.removeEventListener("resize", this._resizeHandler);
   }
 
   componentDidUpdate() {
+    this.syncLbImg();
+    try { document.body.style.overflow = this.state.lightbox != null ? "hidden" : ""; } catch (e) {}
     this.updateLogo();
   }
 
@@ -291,6 +384,7 @@ class Component extends DCLogic {
     ctx.clearRect(0, 0, w, h);
     var cx = w / 2, cy = h / 2;
     var focal = 780 * devicePixelRatio;
+    var fit = Math.max(0.55, Math.min(1, (w / devicePixelRatio) / 900));
     var cosY = Math.cos(this.angleY), sinY = Math.sin(this.angleY);
     var cosX = Math.cos(this.angleX), sinX = Math.sin(this.angleX);
     var colors = this.themeColors();
@@ -303,15 +397,15 @@ class Component extends DCLogic {
       var z2 = p.y * sinX + z1 * cosX;
       var scale = focal / (focal + z2 + 900);
       proj[i] = {
-        sx: cx + x1 * scale * devicePixelRatio,
-        sy: cy + y1 * scale * devicePixelRatio,
+        sx: cx + x1 * scale * fit * devicePixelRatio,
+        sy: cy + y1 * scale * fit * devicePixelRatio,
         depthT: (z2 + 450) / 900,
         scale: scale
       };
     }
     for (var j = 0; j < proj.length; j++) {
       var pj = proj[j];
-      var r = Math.max(0.6, 1.6 * pj.scale) * devicePixelRatio;
+      var r = Math.max(0.6, 1.6 * pj.scale * fit) * devicePixelRatio;
       ctx.beginPath();
       ctx.arc(pj.sx, pj.sy, r, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(" + colors.dot + "," + (0.1 + pj.depthT * 0.22).toFixed(3) + ")";
@@ -369,29 +463,110 @@ class Component extends DCLogic {
   }
 
   buildProjects() {
+    // ================================================================
+    // PROJECTS — edit image addresses here.
+    //   cover:   the thumbnail shown on the Projects page (and as the hero
+    //            image on the project's detail page). Relative path such as
+    //            "./images/kitchen-cover.jpg" or a full https:// URL.
+    //   gallery: extra images shown in the gallery on the detail page.
+    //            Add as many addresses as you like, one string per image.
+    //   Leave "" / [] empty and a neutral placeholder is shown instead.
+    // ================================================================
     var list = [
+      // ---- 1. Hybrid Connected Kitchens ----
       { year: "2020-2026", title: "Hybrid Connected Kitchens", tools: "Unity (C#), thematic analysis, Continuous Fuzzy Kano Model",
-        blurb: "A four-study programmatic design research arc (Kitchen Talks, Portal, KitchXR, Hybrid Connected Kitchens) investigating XR-mediated communication in domestic spaces. Designed and conducted co-design studies, participant observation, and expert evaluations; built VR/MR prototypes." },
-      { year: "2024-2026", title: "Cultural Heritage with XR", tools: "Photogrammetry, 3D modeling, Unity",
-        blurb: "With Vehbi Koc Vakfi and KARMA Mixed Reality Lab, creating virtual twins of archaeological sites and building immersive experiences with advanced storytelling." },
+        blurb: "A four-study programmatic design research arc (Kitchen Talks, Portal, KitchXR, Hybrid Connected Kitchens) investigating XR-mediated communication in domestic spaces. Designed and conducted co-design studies, participant observation, and expert evaluations; built VR/MR prototypes.",
+        cover: "./images/hybrid-connected-kitchens-cover.jpg", // <- COVER IMAGE ADDRESS for "Hybrid Connected Kitchens"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Hybrid Connected Kitchens"
+          "./images/hck-01.jpg", "./images/hck-02.jpg", "./images/hck-03.jpg", "./images/hck-04.jpg", "./images/hck-05.jpg",
+          "./images/hck-06.jpg", "./images/hck-07.jpg", "./images/hck-08.jpg", "./images/hck-09.jpg", "./images/hck-10.jpg",
+        ] },
+      // ---- 2. Cultural Heritage with XR ----
+      { year: "2024-2026", title: "Anatolian Horizons", tools: "Photogrammetry, 3D modeling, Unity",
+        blurb: "With Vehbi Koc Vakfi and KARMA Mixed Reality Lab, creating virtual twins of archaeological sites and building immersive experiences with advanced storytelling.",
+        cover: "./images/cultural-heritage-cover.jpg", // <- COVER IMAGE ADDRESS for "Cultural Heritage with XR"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Cultural Heritage with XR"
+          "./images/chx-01.jpg", "./images/chx-02.jpg", "./images/chx-03.jpg", "./images/chx-04.jpg", "./images/chx-05.jpg",
+        ] },
+      // ---- 3. Gordion Museum App ----
       { year: "2024-2025", title: "Gordion Museum App", tools: "Unity, UX/UI design",
-        blurb: "Android tablet application presenting a 3D virtual twin of the Gordion Tomb alongside images from the first excavation. Designed the UX/UI and built the entire application." },
+        blurb: "Android tablet application presenting a 3D virtual twin of the Gordion Tomb alongside images from the first excavation. Designed the UX/UI and built the entire application.",
+        cover: "./images/gordion-cover.jpg", // <- COVER IMAGE ADDRESS for "Gordion Museum App"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Gordion Museum App"
+          "./images/gor-01.jpg", "./images/gor-02.jpg", "./images/gor-03.jpg", "./images/gor-04.jpg",
+        ] },
+      // ---- 4. Cyano Vision ----
       { year: "2024-2025", title: "Cyano Vision", tools: "Unity, Meta Quest 3, passthrough",
-        blurb: "Speculative VR passthrough tool, developed at TU Delft, transforming camera data into a representation of cyanobacterial perception for more-than-human biodesign research." },
+        blurb: "Speculative VR passthrough tool, developed at TU Delft, transforming camera data into a representation of cyanobacterial perception for more-than-human biodesign research.",
+        cover: "", // <- COVER IMAGE ADDRESS for "Cyano Vision"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Cyano Vision", e.g.
+          // "./images/cyano-vision-1.jpg",
+          // "./images/cyano-vision-2.jpg",
+        ] },
+      // ---- 5. KUH Surgery VR ----
       { year: "2022", title: "KUH Surgery VR", tools: "C#, Oculus Interaction Kit, shading",
-        blurb: "VR spine and brain-surgery training environment for Koc University Hospital medical conferences. Level design, modeling and optimization, UI design, and render optimization; basis of the Turkish Neurosurgery publication." },
+        blurb: "VR spine and brain-surgery training environment for Koc University Hospital medical conferences. Level design, modeling and optimization, UI design, and render optimization; basis of the Turkish Neurosurgery publication.",
+        cover: "./images/kuh-cover.jpg", // <- COVER IMAGE ADDRESS for "KUH Surgery VR"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "KUH Surgery VR"
+          "./images/kuh-01.jpg", "./images/kuh-02.jpg", "./images/kuh-03.jpg", "./images/kuh-04.jpg",
+          "./images/kuh-05.jpg", "./images/kuh-06.jpg", "./images/kuh-07.jpg", "./images/kuh-08.jpg",
+        ] },
+      // ---- 6. Knobie ----
       { year: "2021", title: "Knobie", tools: "Unity/Vuforia, HoloLens",
-        blurb: "MR menu-design prototype combining printed recipe cards with sustainability, seasonality, and price scores. Card and UI design, Unity/Vuforia development, HoloLens optimization." },
+        blurb: "MR menu-design prototype combining printed recipe cards with sustainability, seasonality, and price scores. Card and UI design, Unity/Vuforia development, HoloLens optimization.",
+        cover: "", // <- COVER IMAGE ADDRESS for "Knobie"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Knobie", e.g.
+          // "./images/knobie-1.jpg",
+          // "./images/knobie-2.jpg",
+        ] },
+      // ---- 7. Dunyali AR ----
       { year: "2021", title: "Dunyali AR", tools: "AR, ideation, 3D design",
-        blurb: "XR consultant for a map and globe publisher on an educational AR application: ideation, UX, 3D design, and development, published on the App Store and Play Store." },
+        blurb: "XR consultant for a map and globe publisher on an educational AR application: ideation, UX, 3D design, and development, published on the App Store and Play Store.",
+        cover: "", // <- COVER IMAGE ADDRESS for "Dunyali AR"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Dunyali AR", e.g.
+          // "./images/dunyali-ar-1.jpg",
+          // "./images/dunyali-ar-2.jpg",
+        ] },
+      // ---- 8. Hacivat and Karagoz Educational Game ----
       { year: "2013", title: "Hacivat and Karagoz Educational Game", tools: "Leap Motion, character design",
-        blurb: "MS thesis project: an educational game for pre-school children based on the traditional Turkish shadow-play characters. 2D/3D character design and gesture-based interaction design." },
+        blurb: "MS thesis project: an educational game for pre-school children based on the traditional Turkish shadow-play characters. 2D/3D character design and gesture-based interaction design.",
+        cover: "", // <- COVER IMAGE ADDRESS for "Hacivat and Karagoz Educational Game"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Hacivat and Karagoz Educational Game", e.g.
+          // "./images/hacivat-and-karagoz-educational-game-1.jpg",
+          // "./images/hacivat-and-karagoz-educational-game-2.jpg",
+        ] },
+      // ---- 9. Hi-Menu ----
       { year: "2012", title: "Hi-Menu", tools: "iPad, UX/UI, front-end",
-        blurb: "In-restaurant tablet menu and entertainment platform delivering menus and customer entertainment on iPads in restaurants and cafes. Ideation, UX/UI design, front-end development, user testing." }
+        blurb: "In-restaurant tablet menu and entertainment platform delivering menus and customer entertainment on iPads in restaurants and cafes. Ideation, UX/UI design, front-end development, user testing.",
+        cover: "", // <- COVER IMAGE ADDRESS for "Hi-Menu"
+        gallery: [
+          // <- GALLERY IMAGE ADDRESSES for "Hi-Menu", e.g.
+          // "./images/hi-menu-1.jpg",
+          // "./images/hi-menu-2.jpg",
+        ] }
     ];
+    var self = this;
     for (var i = 0; i < list.length; i++) {
-      list[i].imgId = "proj-" + i;
-      list[i].placeholder = "Drop a screenshot: " + list[i].title;
+      (function (idx) {
+        var p = list[idx];
+        p.hasCover = !!p.cover;
+        p.coverRef = function (el) { if (el && p.cover && el.getAttribute("src") !== p.cover) el.setAttribute("src", p.cover); };
+        p.noCover = !p.cover;
+        p.galleryItems = (p.gallery || []).filter(function (s) { return !!s; }).map(function (src, k) {
+          return { src: src, alt: p.title + " — image " + (k + 1), zoom: function () { self.openLightbox(k); }, ref: function (el) { if (el && el.getAttribute("src") !== src) el.setAttribute("src", src); } };
+        });
+        p.hasGallery = p.galleryItems.length > 0;
+        p.noGallery = !p.hasGallery;
+        p.open = function () { self.openProject(idx); };
+      })(i);
     }
     return list;
   }
@@ -406,12 +581,44 @@ class Component extends DCLogic {
     ];
   }
 
-  goHome() { this.setState({ page: "home" }); }
-  setPageHome() { this.setState({ page: "home" }); }
-  setPageExperience() { this.setState({ page: "experience" }); }
-  setPageProjects() { this.setState({ page: "projects" }); }
-  setPagePublications() { this.setState({ page: "publications" }); }
-  setPageContact() { this.setState({ page: "contact" }); }
+  go(p, extra) {
+    this.setState(Object.assign({ page: p, menuOpen: false, lightbox: null }, extra || {}));
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  syncLbImg() {
+    if (!this.lbImg || this.state.lightbox == null) return;
+    var it = this.projects[this.state.projectIndex || 0].galleryItems[this.state.lightbox];
+    if (it && this.lbImg.getAttribute("src") !== it.src) this.lbImg.setAttribute("src", it.src);
+  }
+  openLightbox(k) { this.setState({ lightbox: k }); }
+  closeLightbox() { this.setState({ lightbox: null }); }
+  stepLightbox(d) {
+    var items = this.projects[this.state.projectIndex || 0].galleryItems;
+    if (this.state.lightbox == null || !items.length) return;
+    this.setState({ lightbox: (this.state.lightbox + d + items.length) % items.length });
+  }
+  onLbKey(e) {
+    if (this.state.lightbox == null) return;
+    if (e.key === "Escape") this.closeLightbox();
+    else if (e.key === "ArrowRight") this.stepLightbox(1);
+    else if (e.key === "ArrowLeft") this.stepLightbox(-1);
+  }
+  toggleMenu() { this.setState(function (s) { return { menuOpen: !s.menuOpen }; }); }
+  goHome() { this.go("home"); }
+  setPageHome() { this.go("home"); }
+  setPageExperience() { this.go("experience"); }
+  setPageProjects() { this.go("projects"); }
+  openProject(i) { this.go("project", { projectIndex: i }); }
+  setPagePublications() { this.go("publications"); }
+  setPageContact() { this.go("contact"); }
+
+  onCloudTouch(e) {
+    var t = e.touches && e.touches[0];
+    if (!t) return;
+    var rect = e.currentTarget.getBoundingClientRect();
+    this.mouse = { x: t.clientX - rect.left, y: t.clientY - rect.top };
+    this.scheduleUpdate();
+  }
 
   onCloudMove(e) {
     var rect = e.currentTarget.getBoundingClientRect();
@@ -464,9 +671,44 @@ class Component extends DCLogic {
     function underline(p) { return page === p ? "1px solid var(--accent, #4f6b8a)" : "1px solid transparent"; }
     this.skillRefs = this.skillRefs.slice(0, this.skillData.length);
 
+    var width = this.state.width || 1200;
+    var isMobile = width < 640;
+    var isTablet = width >= 640 && width < 1024;
+    var bp = isMobile ? "mobile" : (isTablet ? "tablet" : "desktop");
+    var sizeFactor = isMobile ? 0.72 : (isTablet ? 0.88 : 1);
+
+    var rt = {
+      headerPadding: isMobile ? "10px 16px" : (isTablet ? "14px 24px" : "18px 40px"),
+      logoHeight: isMobile ? "52px" : (isTablet ? "78px" : "114px"),
+      logoWidth: isMobile ? "107px" : (isTablet ? "160px" : "235px"),
+      navGap: isMobile ? "10px" : (isTablet ? "18px" : "32px"),
+      navFontSize: isMobile ? "12px" : (isTablet ? "14px" : "15px"),
+      mainPadding: isMobile ? "40px 18px 64px" : (isTablet ? "52px 26px 80px" : "64px 32px 100px"),
+      nameSize: isMobile ? "22px" : (isTablet ? "28px" : "35px"),
+      h1Size: isMobile ? "18px" : "20px",
+      cloudPadding: isMobile ? "18px 6px" : (isTablet ? "24px 14px" : "28px 20px"),
+      eduDirection: isMobile ? "column" : "row",
+      eduGap: isMobile ? "4px" : "24px",
+      eduYearWidth: isMobile ? "auto" : "110px",
+      projectGridColumns: isMobile ? "1fr" : "340px 1fr",
+      projectImgWidth: isMobile ? "100%" : "340px",
+      projectImgHeight: isMobile ? "190px" : "210px",
+      pageH1Size: isMobile ? "28px" : "38px"
+    };
+
+    var lbItems = this.projects[this.state.projectIndex || 0].galleryItems;
+    var lbItem = (page === "project" && this.state.lightbox != null) ? lbItems[this.state.lightbox] : null;
+    var compact = width < 760;
+    var menuOpen = compact && !!this.state.menuOpen;
+    var navDefs = [["Home", "home", this.setPageHome], ["Experience", "experience", this.setPageExperience], ["Projects", "projects", this.setPageProjects], ["Publications", "publications", this.setPagePublications], ["Contact", "contact", this.setPageContact]];
+    var navItems = navDefs.map(function (d) {
+      var active = page === d[1] || (d[1] === "projects" && page === "project");
+      return { label: d[0], go: d[2], color: active ? "var(--accent, #4f6b8a)" : "var(--ink, #1f2023)", weight: active ? 600 : 400 };
+    });
+
     var wobbleEnabled = this.props.wobbleEnabled !== false;
     var skills = this.skillData.map(function (row, i) {
-      var label = row[0], category = row[1], size = row[2];
+      var label = row[0], category = row[1], size = Math.round(row[2] * sizeFactor);
       if (!self.skillRefs[i]) self.skillRefs[i] = {};
       var dur = (4 + (i % 5) * 0.6).toFixed(2);
       var delay = ((i % 7) * 0.35).toFixed(2);
@@ -482,9 +724,10 @@ class Component extends DCLogic {
     });
 
     return {
-      isHome: page === "home", isExperience: page === "experience", isProjects: page === "projects",
+      isHome: page === "home", isExperience: page === "experience", isProjects: page === "projects", isProject: page === "project",
+      current: this.projects[this.state.projectIndex || 0],
       isPublications: page === "publications", isContact: page === "contact",
-      homeUnderline: underline("home"), experienceUnderline: underline("experience"), projectsUnderline: underline("projects"),
+      homeUnderline: underline("home"), experienceUnderline: underline("experience"), projectsUnderline: (page === "projects" || page === "project") ? underline(page) : underline("projects"),
       publicationsUnderline: underline("publications"), contactUnderline: underline("contact"),
       goHome: this.goHome, setPageHome: this.setPageHome, setPageExperience: this.setPageExperience, setPageProjects: this.setPageProjects,
       setPagePublications: this.setPagePublications, setPageContact: this.setPageContact,
@@ -493,7 +736,19 @@ class Component extends DCLogic {
       onCloudMove: this.onCloudMove, onCloudLeave: this.onCloudLeave, canvasRef: this.canvasRef,
       skills: skills, education: this.education, experience: this.experience,
       projects: this.projects, publications: this.publications,
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      rt: rt,
+      lbOpen: lbItem != null, lbRef: this.lbRef, lbAlt: lbItem ? lbItem.alt : "",
+      lbCounter: lbItem ? (this.state.lightbox + 1) + " / " + lbItems.length : "",
+      lbMulti: lbItems.length > 1, lbClose: this.lbClose, lbPrev: this.lbPrev, lbNext: this.lbNext, stop: this.stop,
+      lbTouchStart: this.lbTouchStart, lbTouchEnd: this.lbTouchEnd,
+      wideNav: !compact, compactNav: compact, menuVisible: menuOpen,
+      menuOpenStr: menuOpen ? "true" : "false", toggleMenu: this.toggleMenu,
+      bar1: menuOpen ? "translateY(6.5px) rotate(45deg)" : "none",
+      bar2: menuOpen ? 0 : 1,
+      bar3: menuOpen ? "translateY(-6.5px) rotate(-45deg)" : "none",
+      navItems: navItems, onCloudTouch: this.onCloudTouch,
+      cloudHint: this.isTouch ? "Drag your finger across the cloud — words wake up nearby." : "Move your mouse across the cloud — words wake up nearby."
     };
   }
 }
